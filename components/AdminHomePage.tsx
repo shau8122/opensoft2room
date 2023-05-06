@@ -1,10 +1,33 @@
 import Image from "next/image";
+import StudentContext from "@/context/students/StudentContext";
 import router from "next/router";
-import React, { useState } from "react";
+import React, { Key, useContext, useState } from "react";
 import styles from "./style.module.css";
 
-export default function AdminHomePage() {
+export default  function AdminHomePage() {
   const [showModal, setShowModal] = useState(false);
+  const context  = useContext(StudentContext);
+  const {students} = context;
+  const [foundStudent, setFoundStudent] = useState({
+    name:"",
+    contactNo:"",
+    rollNo:"",
+    roomNo:"",
+    email:"",
+  });
+  const handleClick1 = (id: any) => {
+    const foundItem = students.find(
+      (student: { _id: any; id: any }) => student._id === id
+    );
+    setFoundStudent({
+      name:foundItem.name,
+      contactNo:foundItem.contactNo,
+      rollNo:foundItem.rollNo,
+      roomNo:foundItem.roomNo,
+      email:foundItem.email,
+    })
+    setShowModal(true);
+  };
   return (
     <div>
       <div className={styles.studentTop}>
@@ -19,42 +42,37 @@ export default function AdminHomePage() {
         <button className={styles.button} onClick={() => router.push("/AdminProfile")}>My Profile</button>
       </div>
       <div className={styles.borders}></div>
-      <div className="grid grid-cols-6 my-6 gap-4">
-        <div className={styles.nameCard} onClick={() => setShowModal(true)}>
-          <h1>
-            Shaukat ali <span style={{ fontWeight: "bold" }}>410</span>
-          </h1>
-        </div>
+      <div className="grid grid-cols-3 my-6 gap-4">
         {showModal ? (
           <>
             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
               <div className={styles.modalBody}>
-                <div className="relative p-6 ">
+                <div className="relative p-7 ">
                   <div className={styles.modalContent}>
                     <Image
                       src={`/Ellipse.png`}
                       alt="hi"
                       width={100}
                       height={100}
-                      style={{margin:"10px"}}
+                      style={{ margin: "10px" }}
                     />
-                    <h1>Shaukat Ali</h1>
+                    <h1 style={{ fontSize: "1.5rem" }}>{foundStudent.name}</h1>
                     <h2 style={{ fontSize: "1.5rem" }}>
                       Contact:{" "}
-                      <span style={{ fontWeight: "bold" }}>7654831436</span>
+                      <span style={{ fontWeight: "bold" }}>{foundStudent.contactNo}</span>
                     </h2>
                     <h2 style={{ fontSize: "1.5rem" }}>
-                      Room No: <span style={{ fontWeight: "bold" }}>410</span>
+                      Room No: <span style={{ fontWeight: "bold" }}>{foundStudent.roomNo}</span>
                     </h2>
-                    <h2 style={{ fontSize: "1.3rem" }}>
+                    <h2 style={{ fontSize: "1.1rem" }}>
                       Email Id:{" "}
                       <span style={{ fontWeight: "bold" }}>
-                        shaukat8122@gmail.com
+                      {foundStudent.email}
                       </span>
                     </h2>
                     <h2 style={{ fontSize: "1.5rem" }}>
                       Roll No:{" "}
-                      <span style={{ fontWeight: "bold" }}>21CH10059</span>
+                      <span style={{ fontWeight: "bold" }}>{foundStudent.rollNo}</span>
                     </h2>
                     <h2 style={{ fontSize: "1.5rem" }}>
                       Block: <span style={{ fontWeight: "bold" }}>E</span>
@@ -75,56 +93,41 @@ export default function AdminHomePage() {
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
           </>
         ) : null}
-        <div className={styles.nameCard}>
-          <h1>
-            Shaukat ali <span style={{ fontWeight: "bold" }}>410</span>
-          </h1>
-        </div>
-        <div className={styles.nameCard}>
-          <h1>
-            Shaukat ali <span style={{ fontWeight: "bold" }}>410</span>
-          </h1>
-        </div>
-        <div className={styles.nameCard}>
-          <h1>
-            Shaukat ali <span style={{ fontWeight: "bold" }}>410</span>
-          </h1>
-        </div>
-        <div className={styles.nameCard}>
-          <h1>
-            Shaukat ali <span style={{ fontWeight: "bold" }}>410</span>
-          </h1>
-        </div>
-        <div className={styles.nameCard}>
-          <h1>
-            Shaukat ali <span style={{ fontWeight: "bold" }}>410</span>
-          </h1>
-        </div>
-        <div className={styles.nameCard}>
-          <h1>
-            Shaukat ali <span style={{ fontWeight: "bold" }}>410</span>
-          </h1>
-        </div>
-        <div className={styles.nameCard}>
-          <h1>
-            Shaukat ali <span style={{ fontWeight: "bold" }}>410</span>
-          </h1>
-        </div>
-        <div className={styles.nameCard}>
-          <h1>
-            Shaukat ali <span style={{ fontWeight: "bold" }}>410</span>
-          </h1>
-        </div>
-        <div className={styles.nameCard}>
-          <h1>
-            Shaukat ali <span style={{ fontWeight: "bold" }}>410</span>
-          </h1>
-        </div>
-        <div className={styles.nameCard}>
-          <h1>
-            Shaukat ali <span style={{ fontWeight: "bold" }}>410</span>
-          </h1>
-        </div>
+        {students.map(function (student: {
+          _id: Key | null | undefined;
+          name:
+            | string
+            | number
+            | boolean
+            | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+            | React.ReactFragment
+            | React.ReactPortal
+            | null
+            | undefined;
+          roomNo:
+            | string
+            | number
+            | boolean
+            | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+            | React.ReactFragment
+            | React.ReactPortal
+            | null
+            | undefined;
+        }) {
+          return (
+            // eslint-disable-next-line react/jsx-key
+            <div
+              key={student._id}
+              className={styles.nameCard}
+              onClick={() => handleClick1(student._id)}
+            >
+              <h1>
+                {student.name}{" "}
+                <span style={{ fontWeight: "bold" }}>{student.roomNo}</span>
+              </h1>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

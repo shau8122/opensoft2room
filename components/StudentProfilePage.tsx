@@ -1,8 +1,13 @@
+import StudentContext from "@/context/students/StudentContext";
 import Image from "next/image";
 import router from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./style.module.css";
+
 export default function StudentProfilePage() {
+  const context = useContext(StudentContext)
+  const {studentData} = context;
+  
   return (
     <div>
       <button
@@ -22,21 +27,21 @@ export default function StudentProfilePage() {
                 height={100}
                 style={{ margin: "10px" }}
               />
-              <h1>Shaukat Ali</h1>
-              <h2 style={{ fontSize: "1.5rem" }}>
-                Contact: <span style={{ fontWeight: "bold" }}>7654831436</span>
-              </h2>
-              <h2 style={{ fontSize: "1.5rem" }}>
-                Room No: <span style={{ fontWeight: "bold" }}>410</span>
-              </h2>
+              <h1 style={{ fontSize: "1.5rem" }}>{studentData.name}</h1>
               <h2 style={{ fontSize: "1.3rem" }}>
+                Contact: <span style={{ fontWeight: "bold" }}>{studentData.contactNo}</span>
+              </h2>
+              <h2 style={{ fontSize: "1.5rem" }}>
+                Room No: <span style={{ fontWeight: "bold" }}>{studentData.roomNo}</span>
+              </h2>
+              <h2 style={{ fontSize: "1.1rem" }}>
                 Email Id:{" "}
                 <span style={{ fontWeight: "bold" }}>
-                  shaukat8122@gmail.com
+                {studentData.email}
                 </span>
               </h2>
               <h2 style={{ fontSize: "1.5rem" }}>
-                Roll No: <span style={{ fontWeight: "bold" }}>21CH10059</span>
+                Roll No: <span style={{ fontWeight: "bold" }}>{studentData.rollNo}</span>
               </h2>
               <h2 style={{ fontSize: "1.5rem" }}>
                 Block: <span style={{ fontWeight: "bold" }}>E</span>

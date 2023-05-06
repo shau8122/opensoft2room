@@ -1,8 +1,13 @@
+
+import AdminContext from "@/context/admins/AdminContext";
 import Image from "next/image";
 import router from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./style.module.css";
 export default function AdminProfilePage() {
+  const context = useContext(AdminContext)
+  const {adminData} = context
+  console.log(adminData)
   return (
     <div>
       <button
@@ -22,15 +27,15 @@ export default function AdminProfilePage() {
                 height={100}
                 style={{ margin: "10px" }}
               />
-              <h1>Shaukat Ali</h1>
+              <h1>{adminData.name}</h1>
               <h2 style={{ fontSize: "1.5rem" }}>
-                Contact: <span style={{ fontWeight: "bold" }}>7654831436</span>
+                Contact: <span style={{ fontWeight: "bold" }}>{adminData.contactNo}</span>
               </h2>
              
               <h2 style={{ fontSize: "1.3rem" }}>
                 Email Id:{" "}
                 <span style={{ fontWeight: "bold" }}>
-                  shaukat8122@gmail.com
+                  {adminData.email}
                 </span>
               </h2>
               <h2 style={{ fontSize: "2rem" }}>
