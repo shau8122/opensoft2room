@@ -14,16 +14,16 @@ export default function RoomAllot() {
     { roomNo: '104' },
     { roomNo: '105' }
   ];
-  const { emptyRooms, notAlloted, updateRooms } = adminContext;
-  emptyRooms1=emptyRooms;
+  const { 
+    // emptyRooms,
+     notAlloted, updateRooms } = adminContext;
+  // emptyRooms1=emptyRooms;
   const roomNumbersArray = Object.values(emptyRooms1).map(obj => obj.roomNo);
-  console.log(roomNumbersArray);
   
   const option1 = roomNumbersArray.map((element: any) => ({
     value: element,
     label: element,
   }));
-  console.log(typeof emptyRooms1);
   const sortNotAlloted = notAlloted.sort(
     (a: { name: string }, b: { name: any }) => a.name.localeCompare(b.name)
   );
