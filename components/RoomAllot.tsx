@@ -15,9 +15,9 @@ export default function RoomAllot() {
     { roomNo: '105' }
   ];
   const { 
-    // emptyRooms,
+    emptyRooms,
      notAlloted, updateRooms } = adminContext;
-  // emptyRooms1=emptyRooms;
+  emptyRooms1=emptyRooms;
   const roomNumbersArray = Object.values(emptyRooms1).map(obj => obj.roomNo);
   
   const option1 = roomNumbersArray.map((element: any) => ({
