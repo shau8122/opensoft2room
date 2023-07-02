@@ -7,9 +7,16 @@ import AdminContext from "@/context/admins/AdminContext";
 export default function RoomAllot() {
 
   const adminContext = useContext(AdminContext);
+  let emptyRooms1 = [
+    { roomNo: '101' },
+    { roomNo: '102' },
+    { roomNo: '103' },
+    { roomNo: '104' },
+    { roomNo: '105' }
+  ];
   const { emptyRooms, notAlloted, updateRooms } = adminContext;
-
-  const option1 = emptyRooms.map((element: any) => ({
+  emptyRooms1=emptyRooms;
+  const option1 = emptyRooms1.map((element: any) => ({
     value: element.roomNo,
     label: element.roomNo,
   }));
