@@ -1,58 +1,98 @@
-import Image from "next/image";
+// import Image from "next/image";
 import router from "next/router";
-import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./style.module.css";
-import { Input } from "postcss";
+import AdminContext from "@/context/admins/AdminContext";
 export default function RoomAllot() {
-  const [fvalue, setFvalue] = useState({
-    roomNo:"",
-    contactNo:"",
-    email:"",
-    name:""
-  });
-  
-  const handleSelectChange = (event: { target: [any, any]; }) => {
-    const [value,label]= event.target;
-    
+
+  const adminContext = useContext(AdminContext);
+  const { emptyRooms, notAlloted, updateRooms } = adminContext;
+
+  const option1 = emptyRooms.map((element: any) => ({
+    value: element.roomNo,
+    label: element.roomNo,
+  }));
+  const sortNotAlloted = notAlloted.sort(
+    (a: { name: string }, b: { name: any }) => a.name.localeCompare(b.name)
+  );
+  const option2 = sortNotAlloted.map((obj: any) => ({
+    value: obj.name,
+    label: obj.name,
+  }));
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    const data = {
+      roomNo:selectedOption1,
+      name:selectedOption2
+    }
+    updateRooms(data);
+    setSelectedOption1("");
+    setSelectedOption2("");
   };
+  const [selectedOption1, setSelectedOption1] = useState('');
+
+  const handleSelectChange1 = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+    setSelectedOption1(event.target.value);
+  };
+  console.log(selectedOption1);
+  const [selectedOption2, setSelectedOption2] = useState('');
+
+  const handleSelectChange2 = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+    setSelectedOption2(event.target.value);
+  };
+  console.log(selectedOption2);
   
-  const options = [
-    { value: 'apple', label: 'Apple' },
-    { value: 'banana', label: 'Banana' },
-    { value: 'orange', label: 'Orange' },
-    { value: 'grape', label: 'Grape' },
-    { value: 'pear', label: 'Pear' },
-  ];
   return (
     <div>
       <button onClick={() => router.back()} className={styles.button}>
         Back
       </button>
+
       <div className="justify-center items-center flex inset-0 z-50 ">
         <div className={styles.modalBody}>
           <div className="relative p-6 ">
-            <div className={styles.modalContent}>
+            <div className={styles.modalContent} style={{ color: "black" }}>
               <label htmlFor="roomNo">Select Room:</label>
-              <Dropdown
-                options={options}
-                onChange={handleSelectChange}
-                value={fvalue.roomNo}
-                placeholder="Select an option"
-              />
+              <select
+                className="appearance-none w-half bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                value={selectedOption1}
+                onChange={handleSelectChange1}
+              >
+                <option value="" disabled>
+                  Select an option
+                </option>
+                {option1.map((option: { value: number  ; label:  number ; } ) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            
               <label htmlFor="studentName">Select Student:</label>
-              <Dropdown
-                options={options}
-                onChange={handleSelectChange}
-                value={fvalue.name}
-                placeholder="Select an option"
-              />
-              <label htmlFor="contactNO">Enter Contact:</label>
-             <input type="text" value={fvalue.contactNo} placeholder="Enter Contact"/>
-              <label htmlFor="email">Enter Email:</label>
-              <input type="email" value={fvalue.email} placeholder="Enter Email" />
+              <select
+                className="appearance-none w-half bg-white border border-gray-300 hover:border-gray-400 px-5 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                value={selectedOption2}
+                onChange={handleSelectChange2}
+              >
+                <option value="" disabled>
+                  Select an option
+                </option>
+                {option2.map((option: { value: number  ; label:  number ; } ) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+           
             </div>
+            <button
+              className={styles.button}
+              style={{ margin: "20px auto", fontSize: "1.5rem" }}
+              onClick={handleClick}
+            >
+              Submit
+            </button>
           </div>
         </div>
       </div>

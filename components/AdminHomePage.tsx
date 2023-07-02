@@ -1,13 +1,17 @@
 import Image from "next/image";
 import StudentContext from "@/context/students/StudentContext";
 import router from "next/router";
-import React, { Key, useContext, useState } from "react";
+import React, { Key, useContext, useEffect, useState } from "react";
 import styles from "./style.module.css";
+import AdminContext from "@/context/admins/AdminContext";
+import Spinner from "./loader";
 
 export default  function AdminHomePage() {
   const [showModal, setShowModal] = useState(false);
   const context  = useContext(StudentContext);
   const {students} = context;
+  const adminContext = useContext(AdminContext);
+  const {fetchEmptyRooms,fetchNotAlloted}= adminContext;
   const [foundStudent, setFoundStudent] = useState({
     name:"",
     contactNo:"",
@@ -15,6 +19,7 @@ export default  function AdminHomePage() {
     roomNo:"",
     email:"",
   });
+  const [loading, setLoading] = useState(false);
   const handleClick1 = (id: any) => {
     const foundItem = students.find(
       (student: { _id: any; id: any }) => student._id === id
@@ -28,6 +33,20 @@ export default  function AdminHomePage() {
     })
     setShowModal(true);
   };
+  const handleClick=()=>{
+    setLoading(true);
+    fetchEmptyRooms();
+    fetchNotAlloted();
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+    const handleEvent=()=>{
+      router.push('/AllotRoom')
+    }
+    setTimeout(handleEvent, 3000);
+    
+  }
+
   return (
     <div>
       <div className={styles.studentTop}>
@@ -35,13 +54,14 @@ export default  function AdminHomePage() {
           Back
         </button>
         <button 
-        onClick={() => router.push('/AllotRoom')} 
+        onClick={handleClick} 
         className={styles.button}>
           Allot Rooms
         </button>
         <button className={styles.button} onClick={() => router.push("/AdminProfile")}>My Profile</button>
       </div>
       <div className={styles.borders}></div>
+      {loading ? <Spinner/>:
       <div className="grid grid-cols-3 my-6 gap-4">
         {showModal ? (
           <>
@@ -128,7 +148,7 @@ export default  function AdminHomePage() {
             </div>
           );
         })}
-      </div>
+      </div>}
     </div>
   );
 }

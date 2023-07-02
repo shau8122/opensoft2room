@@ -32,7 +32,9 @@ export default function StudentProfilePage() {
                 Contact: <span style={{ fontWeight: "bold" }}>{studentData.contactNo}</span>
               </h2>
               <h2 style={{ fontSize: "1.5rem" }}>
-                Room No: <span style={{ fontWeight: "bold" }}>{studentData.roomNo}</span>
+                Room No: <span style={{ fontWeight: "bold" }}>
+                  {!studentData.roomNo?"Not Alloted":studentData.roomNo}
+                </span>
               </h2>
               <h2 style={{ fontSize: "1.1rem" }}>
                 Email Id:{" "}

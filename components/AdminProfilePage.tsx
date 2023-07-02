@@ -1,4 +1,3 @@
-
 import AdminContext from "@/context/admins/AdminContext";
 import Image from "next/image";
 import router from "next/router";

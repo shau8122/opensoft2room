@@ -14,7 +14,7 @@ export default function StudentHomePage() {
   });
   const context = useContext(StudentContext);
   const { students } = context;
-  
+ 
  
   const handleClick1 = (id: any) => {
     const foundItem = students.find(
